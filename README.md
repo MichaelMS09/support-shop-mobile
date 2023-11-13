@@ -6,6 +6,8 @@ Kelas       : PBP E
 
 [Tugas 7](#tugas-7)
 
+[Tugas 8](#tugas-8)
+
 # Tugas 7
 
 ## Checklist Tugas
@@ -223,3 +225,24 @@ Kelas       : PBP E
     - **ShopCard**: *widget StatelessWidget* yang mewakili <Flutter Name> *card*. Ini menampilkan ikon, teks, dan warna yang terkait dengan item yang diberikan.
     
     - Widget lain yang digunakan, seperti `Scaffold, AppBar, SingleChildScrollView, Padding, Column, GridView.count, InkWell, Container, Center, Icon, Text, SnackBar`, adalah bagian dari Flutter SDK dan digunakan untuk mengatur tata letak dan menampilkan elemen UI.
+
+# Tugas 8
+
+## Checklist Tugas
+
+*Checklist* untuk tugas ini adalah sebagai berikut.
+
+### A. Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step*.
+
+#### 1. Membuat minimal satu halaman baru pada aplikasi, yaitu halaman formulir tambah item baru.
+#### 2. Mengarahkan pengguna ke halaman *form* tambah item baru ketika menekan tombol Tambah Item pada halaman utama.
+#### 3. Memunculkan data sesuai isi dari formulir yang diisi dalam sebuah *pop-up* setelah menekan tombol `Save` pada halaman formulir tambah item baru.
+#### 4. Membuat sebuah drawer pada aplikasi.
+
+### B. Jelaskan perbedaan antara `Navigator.push()` dan `Navigator.pushReplacement()`, disertai dengan contoh mengenai penggunaan kedua metode tersebut yang tepat!
+
+### C. Jelaskan masing-masing *layout widget* pada Flutter dan konteks penggunaannya masing-masing!
+
+### D. Sebutkan apa saja elemen *input* pada *form* yang kamu pakai pada tugas kali ini dan jelaskan mengapa kamu menggunakan elemen input tersebut!
+
+### E. Bagaimana penerapan *clean architecture* pada aplikasi Flutter?
