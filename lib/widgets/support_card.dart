@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:support_shop/screens/supportlist_form.dart';
 import 'package:support_shop/screens/supportlist_item.dart';
+import 'package:support_shop/screens/login.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class SupportCard extends StatelessWidget {
   final SupportItem item;
@@ -9,10 +12,12 @@ class SupportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Material(
       color: item.color,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
@@ -22,10 +27,30 @@ class SupportCard extends StatelessWidget {
             Navigator.push(context,
               MaterialPageRoute(builder: (context) => const SupportFormPage()));
           }
-          if (item.name == "Lihat Item") {
+          else if (item.name == "Lihat Item") {
             Navigator.push(context,
               MaterialPageRoute(builder: (context) => const ShowSupportPage()));
           }
+          else if (item.name == "Logout") {
+            final response = await request.logout(
+                "http://10.0.2.2/auth/logout/");
+            String message = response["message"];
+            if (response['status']) {
+              String uname = response["username"];
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message Sampai jumpa, $uname."),
+              ));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message"),
+              ));
+            }
+          }
+
         },
         child: Container(
           padding: const EdgeInsets.all(8),

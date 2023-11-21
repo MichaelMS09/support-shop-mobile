@@ -8,6 +8,8 @@ Kelas       : PBP E
 
 [Tugas 8](#tugas-8)
 
+[Tugas 9](#tugas-9)
+
 # Tugas 7
 
 ## Checklist Tugas
@@ -850,3 +852,14 @@ Penerapan *Clean Architecture* pada aplikasi Flutter melibatkan pembagian kode k
     - *Injection Layer*: Tempatkan konfigurasi *dependency injection*.
 
 Dengan menerapkan *Clean Architecture*, aplikasi Flutter dapat menjadi lebih modular, mudah diuji, dan lebih mudah untuk dikelola. Selain itu, pemisahan logika bisnis dari aspek teknis mempermudah pemeliharaan aplikasi dan perubahan yang dilakukan.
+
+# Tugas 9
+
+## Checklist Tugas
+
+*Checklist* untuk tugas ini adalah sebagai berikut.
+
+### A. Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step*.
+
+#### 1. Membuat halaman login pada proyek tugas Flutter.
+
