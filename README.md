@@ -861,5 +861,135 @@ Dengan menerapkan *Clean Architecture*, aplikasi Flutter dapat menjadi lebih mod
 
 ### A. Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step*.
 
-#### 1. Membuat halaman login pada proyek tugas Flutter.
+#### 1. Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
 
+Iya, kita dapat melakukan pengambilan data JSON tanpa membuat model terlebih dahulu menggunakan beberapa metode di berbagai bahasa pemrograman. Data JSON di-*deserialization* langsung, dimana data JSON dikonversi langsung menjadi objek tanpa model yang ditentukan. Kelemahan dari *deserialization* ini adalah data biasanya kurang terstruktur. Membuat model lebih baik karena memungkinkan struktur data yang jelas dan mempermudah dalam mengelola data. Namun, apakah lebih baik atau tidak tergantung pada kebutuhan dan kompleksitas aplikasi.
+
+#### 2. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa *instance* CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+
+CookieRequest adalah objek yang terkait dengan permintaan HTTP dan berfungsi sebagai wadah untuk menyimpan informasi cookie. Diimplementasikan dalam Flutter untuk menyimpan atau mengelola cookie yang dibutuhkan untuk proses otorisasi atau autentikasi. *Instance* dari objek CookieRequest secara bersamaan dibagi ke semua komponen di aplikasi Flutter, memungkinkan penggunaan yang konsisten di seluruh aplikasi. Hal ini memastikan bahwa cookie yang relevan dan dibutuhkan dapat diakses atau diproses dengan benar di berbagai bagian aplikasi.
+
+#### 3. Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
+
+Proses pengambilan dan tampilan data dari JSON pada Flutter melibatkan beberapa langkah utama:
+
+1. **Mengambil Data dari JSON**:
+
+    Pengambilan Data dari API atau Sumber Eksternal: Pertama, Anda perlu mengambil data JSON dari sumber eksternal seperti API. Flutter menyediakan *package* seperti http yang memungkinkan Anda membuat permintaan HTTP dan mengambil data JSON dari server.
+
+    Contoh menggunakan package http:
+
+    ```dart
+    import 'dart:convert';
+    import 'package:http/http.dart' as http;
+
+    Future fetchData() async {
+        final response = await http.get('https://example.com/api/data');
+        if (response.statusCode == 200) {
+            // Parse data JSON
+            Map<String, dynamic> data = json.decode(response.body);
+            return data;
+        } else {
+            throw Exception('Failed to load data');
+        }
+    }
+    ```
+
+2. **Parsing Data JSON**:
+
+    *Deserialization* (Pemrosesan): Setelah mendapatkan data JSON, Anda perlu menguraikannya menjadi objek Dart. Anda dapat menggunakan fungsi json.decode untuk mengonversi data JSON menjadi objek Dart.
+
+    ```dart
+    Map<String, dynamic> data = json.decode(response.body);
+    ```
+
+    Model Objek: Sebaiknya, definisikan model objek Dart untuk merepresentasikan struktur data dari JSON. Ini membantu Anda mengelola dan mengakses data dengan lebih mudah. Contoh:
+
+    ```dart
+    class MyData {
+        final String key1;
+        final int key2;
+
+        MyData({required this.key1, required this.key2});
+
+        factory MyData.fromJson(Map<String, dynamic> json) {
+            return MyData(
+            key1: json['key1'],
+            key2: json['key2'],
+            );
+        }
+    }
+    ```
+
+    Lalu gunakan model tersebut untuk mengonversi data JSON menjadi objek Dart:
+
+    ```dart
+    MyData myData = MyData.fromJson(data);
+    ```
+
+3. **Menampilkan Data di Flutter**:
+
+    Menggunakan Widget: Gunakan widget Flutter, seperti Text, ListView, atau widget kustom, untuk menampilkan data yang telah Anda ambil dari JSON. Gunakan data yang sudah di-parse ke dalam objek Dart.
+
+    ```dart
+    class MyWidget extends StatelessWidget {
+        final MyData myData;
+
+        MyWidget({required this.myData});
+
+        @override
+        Widget build(BuildContext context) {
+            return Column(
+            children: [
+                Text('Key 1: ${myData.key1}'),
+                Text('Key 2: ${myData.key2}'),
+            ],
+            );
+        }
+    }
+    ```
+
+#### 4. Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+1. Menggunakan `provider` dan `pbp_django_auth` untuk integrasi autentikasi dari Django.
+
+2. Mengirim data autentikasi berupa `username` dan `password` ke backend Django melalui permintaan HTTP, seperti pada kode berikut:
+
+    ```dart
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    final response = await request.login("http://michael-marcellino-tugas.pbp.cs.ui.ac.id/auth/login/", {
+    'username': username,
+    'password': password,
+    })
+    ```
+
+3. Django akan mengecek data autentikasi yang dikirim dan jika *valid*, maka widget `Navigator` digunakan untuk *redirect* aplikasi Flutter ke `menu.dart`:
+
+    ```dart
+    if (request.loggedIn) {
+    String message = response['message'];
+    String uname = response['username'];
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyHomePage()),
+    )
+    }
+    ```
+
+#### 5. Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.
+
+1. Scaffold berfungsi sebagai kerangka dasar aplikasi dengan AppBar, Drawer, dan body. 
+2. Form digunakan untuk mengatur input data item, seperti nama, jumlah, harga, dan deskripsi. 
+3. TextFormField adalah widget input teks untuk mengumpulkan data. 
+4. ElevatedButton merupakan tombol yang digunakan untuk menyimpan data item.
+5. FutureBuilder digunakan untuk mengelola tampilan berdasarkan status future, membantu dalam mendapatkan dan menampilkan data item secara asinkronus.
+6. ListView.builder digunakan untuk menampilkan daftar item dalam bentuk list yang dapat di-scroll. 
+7. MaterialApp berfungsi sebagai widget root yang menentukan tema dan halaman awal aplikasi. 
+8. Provider digunakan untuk menyediakan instance CookieRequest ke seluruh aplikasi menggunakan Provider.
+9. Column digunakan untuk menyusun widget secara vertikal, sementara GridView.count digunakan untuk menampilkan daftar item dalam grid layout. 
+10. ShopCard merupakan widget custom untuk menampilkan setiap item dalam bentuk card, dengan Material yang mengatur warna background item di dalam grid.
+11. Icon digunakan untuk menampilkan ikon item, sementara Text digunakan untuk menampilkan nama item. 
+12. ListView digunakan untuk menampilkan daftar opsi menu dalam drawer, dengan ListTile yang membuat opsi menu dalam drawer.
+13. Navigator bertanggung jawab untuk menavigasi antar halaman dalam aplikasi. Dengan menggunakan kombinasi widget-widget ini, pengembang Flutter dapat membuat aplikasi yang dinamis dan responsif dengan fungsionalitas input data, notifikasi, dan navigasi yang baik.
